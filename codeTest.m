@@ -23,12 +23,19 @@ ccomp = bwlabel(mx);
    
  figure(5);
  hold on;
- 
-for curve=curves
-     disp(cell2mat(curve(length(curve), 1 )));
-     %curve(length(curve)+1, 1 ) = curve(1, 1);
-     %curve(length(curve)+1, 2 ) = curve(2, 1);
-     %fnplt(cscvn(cell2mat(curve)'),'r',1);
-end
+
+ %%
+ for i=1:length(curves)
+      %curves{i,1}(length(curves(i)) ,1)= curves{i,1}(1,1);
+      %curves{i,1}(length(curves(i)) ,2)= curves{i,1}(1,2);
+      %a=fnplt(cscvn(cell2mat(curve)'),'r',1);
+      %plot(a(1 , 1:end ),a(2 ,1:end));
+      plt=getplot(curves(i));
+      plot(plt(1 , 1:end ),plt(2 ,1:end))
+ end
 
 %yi=interp1(x,y,xi,'spline');plot(xi,yi)
+
+function pltt=getplot(curve)
+    pltt=fnplt(cscvn(cell2mat(curve)'));
+end
