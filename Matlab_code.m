@@ -5,7 +5,7 @@ A = 0.6;
 global B;
 B = 0.2;
 %% ----------Kép importálása----------
-I0 = imread('input.png');
+I0 = imread('input_smooth.png');
 figure(2);
 imshow(I0);
 %imfinfo('input.png');
@@ -35,7 +35,7 @@ while M == 255
     %pause(0.1);
     imshow(10.*uint8(I));
 end
-%----------Bázispontok generálása----------
+%% ----------Bázispontok generálása----------
 [M, mx, my]= Max(I);
 m = B*M;
 global BasePoints;
@@ -57,4 +57,27 @@ while M >= m
     %pause(0.1);
 end
 %% ----------Görbék illesztése----------
+figure(2);
+
+curves=cell(max(vertcat(BasePoints.Line)),1);
+
+ for point=BasePoints
+     curves(point.Line, 1)= {[cell2mat(curves(point.Line, 1)) ;  [point.koords(1) point.koords(2)]]};
+ end
+
+
+ for i=1:length(curves)
+      %curves{i,1}(length(curves(i)) ,1)= curves{i,1}(1,1);
+      %curves{i,1}(length(curves(i)) ,2)= curves{i,1}(1,2);
+      %a=fnplt(cscvn(cell2mat(curve)'),'r',1);
+      %plot(a(1 , 1:end ),a(2 ,1:end));
+      plt=getplot(curves(i));
+      hold on;
+      plot(plt(1 , 1:end ),-plt(2 ,1:end))
+ end
+
+
+function plt=getplot(curve)
+    plt=fnplt(cscvn(cell2mat(curve)'));
+end
 
