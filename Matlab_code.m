@@ -57,27 +57,48 @@ while M >= m
     %pause(0.1);
 end
 %% ----------Görbék illesztése----------
-figure(2);
+figure(3);
 
 curves=cell(max(vertcat(BasePoints.Line)),1);
+ 
+ i=1;
+ lastinserted=1;    %The ID of the last inserted point
+ lastline=1;        %The ID of the previous pont
+ distThres=50;
 
  for point=BasePoints
-     curves(point.Line, 1)= {[cell2mat(curves(point.Line, 1)) ;  [point.koords(1) point.koords(2)]]};
+        if lastline ~= point.Line && ~isempty(curves{lastline})
+            lastinserted = i+1;
+            lastline=BasePoints(i).Line;
+        end
+        
+        if(ismember(lastinserted,BasePoints(i).neighbours))
+            curves(point.Line, 1)= {[cell2mat(curves(point.Line, 1)) ;  [point.koords(1) point.koords(2)]]};
+            lastinserted=i;
+         end
+
+     i=i+1;
  end
-
-
+ 
  for i=1:length(curves)
-      %curves{i,1}(length(curves(i)) ,1)= curves{i,1}(1,1);
-      %curves{i,1}(length(curves(i)) ,2)= curves{i,1}(1,2);
-      %a=fnplt(cscvn(cell2mat(curve)'),'r',1);
-      %plot(a(1 , 1:end ),a(2 ,1:end));
-      plt=getplot(curves(i));
-      hold on;
-      plot(plt(1 , 1:end ),-plt(2 ,1:end))
+     if ~isempty(curves{i})
+     if pdist( [ curves{i}(1,1:2) ; curves{i}(end,1:2)]) < distThres
+         curves{i}=[cell2mat(curves(i)) ; curves{i}(1,1:2)];
+     end
+     end
  end
+ 
+ hold on;
 
-
+ axis equal;
+ for i=1:length(curves)
+     if length(curves{i}) > 3
+        plt=getplot(curves(i));
+        plot(plt(2 ,1:end),-plt(1 , 1:end ))
+     end
+    
+ end
+ 
 function plt=getplot(curve)
     plt=fnplt(cscvn(cell2mat(curve)'));
 end
-
