@@ -13,16 +13,16 @@ ccomp = bwlabel(mx);
 %imshow(ccomp);
 %plot(ccomp);
 
- p = vertcat(BasePoints.koords);
- 
- curves=cell(max(vertcat(BasePoints.Line)),1);
- 
- for point=BasePoints
-     curves(point.Line, 1)= {[cell2mat(curves(point.Line, 1)) ;  [point.koords(1) point.koords(2)]]};
- end
-   
- figure(5);
- hold on;
+p = vertcat(BasePoints.koords);
+
+curves=cell(max(vertcat(BasePoints.Line)),1);
+
+for point=BasePoints
+    curves(point.Line, 1)= {[cell2mat(curves(point.Line, 1)) ;  [point.koords(1) point.koords(2)]]};
+end
+
+figure(5);
+hold on;
 
  %%
  for i=1:length(curves)
