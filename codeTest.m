@@ -13,6 +13,15 @@
 % %imshow(ccomp);
 % %plot(ccomp);
 
+curves=cell(max(vertcat(BasePoints.Line)),1);
+
+for point=BasePoints
+    curves(point.Line, 1)= {[cell2mat(curves(point.Line, 1)) ;  [point.koords(1) point.koords(2)]]};
+end
+
+figure(5);
+hold on;
+=======
  curves=cell(max(vertcat(BasePoints.Line)),1);
  
  i=1;
@@ -43,6 +52,7 @@
  end
  
  hold on;
+>>>>>>> ec460aa6c2b93501a3c305b3c82cae6db4f1ef8c
 
  for i=1:length(curves)
      if length(curves{i}) > 3
